@@ -1,33 +1,98 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  HelloFunction:
+  checkHeathFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - index.ts
     Properties:
       Runtime: nodejs22.x
-      Handler: index.handler
-      CodeUri: ./hello-js/
+      Handler: index.checkHealth
+      CodeUri: ./src/handlers
       Architectures:
         - arm64
       Events:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /health
             Method: get
 
-  SayFunction:
+  getUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - index.ts
     Properties:
       Runtime: nodejs22.x
-      Handler: index.handler2
-      CodeUri: ./hello-js/
+      Handler: index.getUser
+      CodeUri: ./src/handlers
       Architectures:
         - arm64
       Events:
-        HelloWorld:
+        GetUser:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /user/{id}
+            Method: get
+
+  createUserFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - index.ts
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.createUser
+      CodeUri: ./src/handlers
+      Architectures:
+        - arm64
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: post
+
+  getProductFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - index.ts
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.getProduct
+      CodeUri: ./src/handlers
+      Architectures:
+        - arm64
+      Events:
+        GetProduct:
+          Type: Api
+          Properties:
+            Path: /product/{id}
+            Method: get
+
+  createProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.createProduct
+      CodeUri: ./src/handlers
+      Architectures:
+        - arm64
+      Events:
+        CreateProduct:
+          Type: Api
+          Properties:
+            Path: /product
             Method: post
