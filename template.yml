@@ -16,3 +16,18 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+
+  SayFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.handler2
+      CodeUri: ./hello-js/
+      Architectures:
+        - arm64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: post

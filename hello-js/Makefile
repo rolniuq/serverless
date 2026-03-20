@@ -1,2 +1,2 @@
-build-HelloFunction:
+build:
 	cp index.js $(ARTIFACTS_DIR)
